@@ -1,0 +1,25 @@
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Logs and output maps
+*.log
+C:/FireRiskMaps/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Sound file (binary asset, distribute separately)
+notification.mp3
