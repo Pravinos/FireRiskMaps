@@ -65,7 +65,7 @@ class Settings:
         (137, 1319),
         (137, 1337),
         (137, 1360),
-        (137, 1385),
+        (137, 1385)
     ])
 
     # (x, y) pixels for the locations to classify
@@ -73,12 +73,14 @@ class Settings:
         (362, 368),
         (389, 385),
         (457, 523),
-        (467, 562),
+         (467, 562),
         (445, 610),
         (571, 701),
         (587, 753),
         (591, 1218),
         (501, 644),
+        (628, 270),
+        (543, 360)
     ])
 
     @property
@@ -87,6 +89,22 @@ class Settings:
 
 
 cfg = Settings()
+
+# Greek month names for date formatting
+GREEK_MONTHS = {
+    1: "ΙΑΝΟΥΑΡΙΟΥ",
+    2: "ΦΕΒΡΟΥΑΡΙΟΥ",
+    3: "ΜΑΡΤΙΟΥ",
+    4: "ΑΠΡΙΛΙΟΥ",
+    5: "ΜΑΙΟΥ",
+    6: "ΙΟΥΝΙΟΥ",
+    7: "ΙΟΥΛΙΟΥ",
+    8: "ΑΥΓΟΥΣΤΟΥ",
+    9: "ΣΕΠΤΕΜΒΡΙΟΥ",
+    10: "ΟΚΤΩΒΡΙΟΥ",
+    11: "ΝΟΕΜΒΡΙΟΥ",
+    12: "ΔΕΚΕΜΒΡΙΟΥ",
+}
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -109,6 +127,18 @@ def _setup_logging() -> None:
 def _target_date() -> str:
     """Return YYMMDD for the configured forecast day."""
     return (datetime.date.today() + datetime.timedelta(days=cfg.days_ahead)).strftime("%y%m%d")
+
+
+def _greek_date_filename(date_str: str) -> str:
+    """
+    Convert date string YYMMDD to "ΧΑΡΤΗΣ ΓΙΑ DD MONTH YY" format.
+    Example: "260621" → "ΧΑΡΤΗΣ ΓΙΑ 21 ΙΟΥΝΙΟΥ 26"
+    """
+    if len(date_str) != 6:
+        return date_str
+    yy, mm, dd = date_str[:2], int(date_str[2:4]), date_str[4:6]
+    month_name = GREEK_MONTHS.get(mm, "ΑΓΝΩΣΤΟΥ")
+    return f"ΧΑΡΤΗΣ ΓΙΑ {dd} {month_name} {yy}"
 
 
 def _fetch_map_url(client: httpx.Client) -> str | None:
@@ -162,7 +192,7 @@ def fetch_map(date_str: str) -> Path | None:
     Returns the local Path on success, or None after max retries.
     """
     cfg.output_dir.mkdir(parents=True, exist_ok=True)
-    dest = cfg.output_dir / f"{date_str}.jpg"
+    dest = cfg.output_dir / f"{_greek_date_filename(date_str)}.jpg"
 
     timeout = httpx.Timeout(connect=10.0, read=30.0, write=None, pool=None)
     with httpx.Client(timeout=timeout, follow_redirects=True) as client:
