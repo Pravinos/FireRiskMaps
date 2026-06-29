@@ -45,7 +45,7 @@ class Settings:
     retry_delay:    int = 5    # seconds between inner retries
 
     # --- scheduling ---
-    days_ahead:          int = 1        # 1 = tomorrow's forecast
+    days_ahead:          int = 1      # 1 = tomorrow's forecast
     run_at:              str = "12:00"  # daily first attempt (HH:MM, 24-hour)
     retry_interval_min:  int = 10       # minutes between pipeline retries on failure
 
@@ -70,17 +70,17 @@ class Settings:
 
     # (x, y) pixels for the locations to classify
     key_points: list = field(default_factory=lambda: [
-        (362, 368),
-        (389, 385),
-        (457, 523),
-         (467, 562),
-        (445, 610),
-        (571, 701),
-        (587, 753),
-        (591, 1218),
-        (501, 644),
-        (628, 270),
-        (543, 360)
+        (362, 368), # ΝΑΟΥΣΑ
+        (389, 385), # ΒΕΡΟΙΑ
+        (408, 555), # ΛΑΡΙΣΑ
+        (467, 562), # ΒΟΛΟΣ
+        (445, 610), # ΑΛΜΥΡΟΣ
+        (571, 701), # ΧΑΛΚΙΔΑ
+        (587, 753), # ΚΑΠΑΝΔΡΙΤΙ
+        (591, 1218), # ΧΑΝΙΑ
+        (501, 644), # ΙΣΤΙΑΙΑ
+        (628, 270), # ΔΡΑΜΑ
+        (543, 360) # ΡΕΝΤΙΝΑ
     ])
 
     @property
